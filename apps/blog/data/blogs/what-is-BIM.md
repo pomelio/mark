@@ -10,24 +10,24 @@ pub_date: 2023-02-25
 ## 建筑业的窘境
 
 盖房子其实是个挺独特的行业。其他行业的产品多半是重复的，比如库克弄个iPhone，一个批次生产几万台，几乎都是一摸一样的。复制上万个史密斯也就是Ctr+C和Ctr-V循环个几遍就Ok。
-[盖房子其实是个挺独特的行业](/blog/public/images/heikediguo.jpg)
+![盖房子其实是个挺独特的行业](/blog/public/images/heikediguo.jpg)
 
 盖房子则不一样，成品的每个房子都会有区别。即便是一样的户型，也会由于建造地点的不同，楼层的不同，朝向的不同，甚至施工时间的不同，导致建造过程，用的材料以及最终成品都会有七七八八的差异。
 
 其他行业比如生产硬件的可以弄个工程样机，看看是不是行得通，然后再量产。软件可以整个beta版alpha版，做个AB测试看看那个更好。就连造飞机，也可以弄个技术验证机，原型测试机。
-[原型测试机](/blog/public/images/bisaxieta.jpg)
+![原型测试机](/blog/public/images/bisaxieta.jpg)
 
 但是在建筑业，你要是整个比萨斜塔测试版，beta版前门箭楼子，估计经费上可能有点困难。当然了，咱们大天朝专业治疗各种不服。不信参观下看看比萨斜塔的驻马店版测试原型？
 
 
 当然放在西方国家也一样。很多第一次建房子的人，都以为房子也是个标准产品。兴冲冲的去找建筑设计师来做设计，设计师也很专业的给了你平面图效果图啥的。
-[效果图](/blog/public/images/xiaoguotu.jpg)
+![效果图](/blog/public/images/xiaoguotu.jpg)
 
 这个时候大家心里的房子最终效果大概是这个样子的 - 冬日的Farnsworth 别墅，雪景、圣诞树和美女交相辉映。
-[别墅1](/blog/public/images/bieshu1.jpg)
+![别墅1](/blog/public/images/bieshu1.jpg)
 
 但现实往往是残酷的，你也有可能看到的是这样让你绝望的水景别墅，里面可能连如花都没法住进去。
-[别墅2](/blog/public/images/bieshu2.jpg)
+![别墅2](/blog/public/images/bieshu2.jpg)
 
 这个别墅叫做Farnsworth House, 由著名设计师路德维希·密斯·凡德罗操刀设计。
 
