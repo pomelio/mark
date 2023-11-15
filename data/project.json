@@ -1,0 +1,16 @@
+{
+    "title": "82号",
+    "website": "https://hello1.au.pagwe.net",
+    "image": "/public/images/logo.png",
+    
+    "footer":{
+        "links":{
+            "Terms and conditions": "/terms",
+            "Privacy Policy": "/privacy"
+        },
+        "socials": {
+            "twitter": "https://twitter.com/lukfan"
+        }
+    }
+
+}

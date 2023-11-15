@@ -1,0 +1,72 @@
+import ext.web as web;
+import ext.markdownit as md;
+import std.string as str;
+import ext.mustache as mch;
+import ext.github as github;
+import std.array as array;
+import std.date as dt;
+
+import modules.common as common;
+
+let web_path = web.path();
+
+
+let doc_name = common.get_doc_name(web_path);
+
+
+let project = {};
+let project_json = github.get_global_content('/project.json');
+if project_json {
+    project = parse_json(project_json);
+}
+
+let app = {};
+let app_json = github.get_app_content('/app.json');
+if app_json {
+  app= parse_json(app_json);
+}
+
+let blog = {};
+if app['blog'] {
+  blog = app['blog'];
+}
+
+let side_bar_html = common.render_sidebar(app);
+
+
+let DOC_NAME = doc_name;
+let HOST_NAME = web.hostname();
+
+
+let users_path = '/users.json';
+let users = [];
+
+let users_json = github.get_global_content(users_path);
+if users_json {
+  users = parse_json(users_json);
+}
+
+let likes = [];
+
+let likes_json = github.get_global_content('/likes.json');
+if likes_json {
+  likes = parse_json(likes_json);
+}
+
+
+let {html: likes_html, count: likes_count} = common.render_likes_html('blog', doc_name, users, likes);
+
+
+let {html: comments_html, count: comments_count} = common.render_comments_html('blog', doc_name, users);
+
+let md_result = md.render('/blogs/' + doc_name);
+let blog_content = md.get_html(md_result);
+let metas = md.get_metas(md_result);
+
+let header_html = mch.render_global_template('/template/header.mustache');
+let footer_html = common.render_foot_html(project);
+
+
+let html = mch.render_template('/template/blog.mustache');
+
+web.body(html);

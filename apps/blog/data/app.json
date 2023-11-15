@@ -1,0 +1,17 @@
+{
+    
+    "navi": {
+        "📃 Blog": "/blog/",
+        "👩🏻‍🦰 Users": "/users",
+        "💬 Messages": "/messages"
+    },
+    "blog": {
+        "name": "82号",
+        "description": "关于新西兰的第一手资讯以及一些好东西分享",
+        "image": "/public/images/mark.png",
+        "blogs":[
+            "what-is-BIM.md"
+        ]
+    }
+
+}

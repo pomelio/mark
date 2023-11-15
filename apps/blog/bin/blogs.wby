@@ -1,0 +1,132 @@
+import ext.github as github;
+import std.string as string;
+import ext.web as web;
+import std.array as array;
+import ext.mustache as mch;
+import ext.markdownit as md;
+import std.math as math;
+import std.number as number;
+
+import modules.common as common;
+
+let PAGE_SIZE = 20;
+
+let query = web.query();
+let page = 0;
+if query['page'] {
+  page = number.parse_int(query['page']);
+}
+
+let project = {};
+let project_json = github.get_global_content('/project.json');
+if project_json {
+    project = parse_json(project_json);
+}
+
+let app = {};
+let app_json = github.get_app_content('/app.json');
+if app_json {
+  app= parse_json(app_json);
+}
+
+let users_path = '/users.json';
+let users = [];
+
+let users_json = github.get_global_content(users_path);
+if users_json {
+  users = parse_json(users_json);
+}
+
+let likes = [];
+
+let likes_json = github.get_global_content('/likes.json');
+if likes_json {
+  likes = parse_json(likes_json);
+}
+
+
+let {html: likes_html, count: likes_count} = common.render_likes_html('blog', 'follower', users, likes);
+
+let side_bar_html = common.render_sidebar(app);
+
+let blog = {};
+if app['blog'] {
+  blog = app['blog'];
+}
+
+let blogs = [];
+if blog['blogs'] {
+  blogs = blog['blogs'];
+}
+
+
+let HOST_NAME = web.hostname();
+
+let blogs_count = len(blogs);
+let offset = page * PAGE_SIZE;
+
+let end = offset + PAGE_SIZE;
+
+if end > blogs_count {
+    end = blogs_count;
+}
+
+blogs = array.slice(blogs, offset, end);
+
+mch.init('/template/blog_card.mustache');
+
+let cards = [];
+
+let page_count = math.floor(blogs_count / PAGE_SIZE) + 1;
+
+for (let i = 0; i < blogs_count; i++) {
+  let markdown_file = blogs[i];
+
+  let md_result = md.render('/blogs/' + markdown_file);
+  let metas = md.get_metas(md_result);
+
+  let is_player_card = false;
+  let is_summary_card = false;
+  let is_summary_image_card = false;
+
+  let player_url = null;
+  let image_url = null;
+  let video = metas['video'];
+  let image = metas['image'];
+  let title = metas['title'];
+  let description = metas['description'];
+  let pub_date = metas['pub_date'];
+
+  if video {
+    is_player_card = true;
+    is_summary_card = false;
+    is_summary_image_card = false;
+
+    let youtubeID = video['youtubeID'];
+    image_url = 'https://img.youtube.com/vi/' + youtubeID + '/0.jpg';
+  } elsif image {
+    is_player_card = false;
+    is_summary_card = false;
+    is_summary_image_card = true;
+    
+    image_url = image['src'];
+  } else {
+    is_player_card = false;
+    is_summary_card = true;
+    is_summary_image_card = false;
+    
+  }
+  
+  let card_html = mch.render();
+  array.push(cards, card_html);
+}
+
+let blogs_content = array.join(cards, '');
+
+let header_html = mch.render_global_template('/template/header.mustache');
+let footer_html = common.render_foot_html(project);
+
+let html = mch.render_template('/template/blogs.mustache');
+
+web.body(html);
+

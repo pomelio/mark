@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+	
+	<title>Blogs - {{blog.name}} &nbsp;|&nbsp; Pagwe Cloud</title>
+    <meta name="og:title" content="Blogs - {{blog.name}}  &nbsp;|&nbsp; Pagwe Cloud">
+	<meta name="twitter:title" content="Blogs - {{blog.name}}  &nbsp;|&nbsp; Pagwe Cloud">
+
+    <meta name="description" content="{{blog.description}}">
+	<meta name="og:description" content="{{blog.description}}">
+	<meta name="twitter:description" content="{{blog.description}}">
+	
+    <meta name="twitter:card" content="summary" />
+	<meta name="twitter:image" content="{{{blog.image}}}">
+
+    <meta name="og:type" content="article" />
+	<meta name="og:url" content="https://www.pagwe.net/blog">
+	<meta name="og:image" content="{{{blog.image}}}">
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/public/images/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/android-chrome-192x192.png">
+	<link rel="icon" type="image/png" sizes="512x512"  href="/android-chrome-512x512.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/public/images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/public/images/favicon-16x16.png">
+	<link rel="manifest" href="/public/images/site.webmanifest">
+	 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind-dark.min.css" integrity="sha512-5qCImO4bnvlpsqNsYuZEHlzJhEN3MBqd3GZp0QCJS0gVNq3Q+MT9Msw8c4UT2j5Cuq/29kz3jCmgYJpekNqSMQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<!-- Alpine Plugins -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+ 
+    <!-- Alpine Core -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<style>
+	
+	pre {
+		tab-size: 4;
+		counter-reset: linecounter;
+		padding: 0;
+		font-size: 16px;
+		line-height: 16px;
+	}
+	pre span.line {
+		counter-increment: linecounter;
+		line-height: 16px;
+	}
+	pre span.line::before {
+		content: counter(linecounter);
+		width: 30px;
+		display: inline-block;
+		border-right: 1px dotted #ccc;
+		padding-right: 3px;
+		margin-right: 5px;
+		text-align: left;
+		font-size: 11px;
+		line-height: 16px;
+	}
+</style>
+
+
+<script type="text/javascript">
+
+	var project_json = `{{{project_json}}}`;
+	var project = JSON.parse(project_json);
+	
+	
+
+
+	function addLineClass (pre) {
+		var lines = pre.innerText.trim().split("\n"); // can use innerHTML also
+		while(pre.childNodes.length > 0) {
+			pre.removeChild(pre.childNodes[0]);
+		}
+		for(var i = 0; i < lines.length; i++) {
+			var span = document.createElement("span");
+			span.className = "line";
+			span.innerText = lines[i]; // can use innerHTML also
+			pre.appendChild(span);
+			pre.appendChild(document.createTextNode("\n"));
+			
+			
+		}
+	}
+	window.addEventListener("load", function () {
+		var pres = document.querySelectorAll("pre > code ");
+		for (var i = 0; i < pres.length; i++) {
+			addLineClass(pres[i]);
+		}
+	}, false);
+
+	
+
+</script>
+
+
+</head>
+
+
+<body class="bg-gray-50 dark:bg-gray-800">
+	{{{header_html}}}
+
+    <div class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900">
+        {{{side_bar_html}}}
+        <div class="relative lg:px-20 w-full h-full overflow-y-auto bg-gray-50 lg:ml-80 dark:bg-gray-900">
+			
+			<div x-data="{
+
+                async toggle_like() {
+
+                    let data = {
+                        clazz: 'blog',
+                        doc: 'follower',
+                    };
+
+                    let headers = {
+						'Content-Type': 'application/json;charset=UTF-8',
+						'Authorization': 'Bearer ' + this.my_account.token,
+					};
+
+					let config = {
+                        method: 'post',
+                        url: '/user/like',
+                        data,
+                        headers,
+                    };
+
+					this.loading = true;
+					try {	
+						await axios(config);
+
+					} finally {
+						let self = this;
+						
+						setTimeout(function(){
+							self.loading = false;
+							window.location.reload(true);
+						}, 2000);
+						
+					}
+                }
+            }"  class="pt-8 flex flex-col items-center pb-10">
+				<img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{{blog.image}}}" alt="Bonnie image"/>
+				<h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{blog.name}}</h5>
+				<span class="text-sm text-gray-500 dark:text-gray-400">{{blog.description}}</span>
+			
+
+				<div class="flex mt-4 space-x-3 md:mt-6">
+					<!-- follower toogle button placeholder -->
+					
+					
+					<button :class="loading && 'hidden' " @click="toggle_like" type="button" class="relative px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+							<path d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
+						</svg>
+                        <span class="sr-only">Likes</span>
+                        <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900">{{likes_count}}</div>
+                    </button>
+
+					
+				</div>
+				<div class="flex items-center mt-4">
+					{{#likes_html}}
+						{{{likes_html}}}
+					{{/likes_html}}
+				</div>
+			</div>
+
+			<div class="px-4 pt-6 space-y-8 grid lg:grid-cols-2 lg:gap-4">
+				{{{blogs_content}}}
+			</div>
+			<div class="mt-12 flex justify-center">
+				<div id="pagination" data-page="{{page}}" data-count="{{page_count}}" data-url="/blog/blogs"></div>
+			</div>
+				
+           
+			{{{footer_html}}}	
+        </div>
+    </div>
+
+</body>
+
+</html>
